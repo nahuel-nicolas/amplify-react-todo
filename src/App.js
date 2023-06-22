@@ -6,10 +6,10 @@ import { createTodo, createUser, deleteTodo, deleteUser } from './graphql/mutati
 import { listTodos, listUsers } from './graphql/queries';
 import { Select, Form, Button, Container, Card } from 'semantic-ui-react';
 
-import { withAuthenticator, Button as AuthButton, Heading } from '@aws-amplify/ui-react';
+import { Authenticator, Button as AuthButton, Heading } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
-function App({ signOut, user }) {
+function App() {
   const [todo, setTodo] = useState({
     name: '',
     description: '',
@@ -158,39 +158,42 @@ function App({ signOut, user }) {
   };
 
   return (
-    <div className="App">
-      <h2>Create User</h2>
-      <Heading level={1}>Hello {user?.username}</Heading>
-      <AuthButton onClick={signOut}>Sign out</AuthButton>
-      <Form className='myform' onSubmit={handleSubmitUser}>
-        <Form.Input type="text" name="name" onChange={handleChangeUser} value={myUser.name} />
-        <Form.Input type="text" name="email" onChange={handleChangeUser} value={myUser.email} />
-        <Button type="submit">Submit</Button>
-      </Form>
-      <h2>Create Todo</h2>
-      <Container>
-        <Form className='myform' onSubmit={handleSubmitTodo}>
-          <Form.Input type="text" name="name" onChange={handleChangeTodo} value={todo.name} />
-          <Form.Input type="text" name="description" onChange={handleChangeTodo} value={todo.description} />
-          <Select
-            required
-            label='Status'
-            placeholder='Select task status'
-            name="todoUserId"
-            options={myUsersOptions}
-            value={todo.todoUserId}
-            onChange={handleSelectChangeTodo}
-          />
-          <br />
+    <Authenticator>
+      {({ signOut, user }) => (
+      <div className="App">
+        <h2>Create User</h2>
+        <Heading level={1}>Hello {user?.username}</Heading>
+        <AuthButton onClick={signOut}>Sign out</AuthButton>
+        <Form className='myform' onSubmit={handleSubmitUser}>
+          <Form.Input type="text" name="name" onChange={handleChangeUser} value={myUser.name} />
+          <Form.Input type="text" name="email" onChange={handleChangeUser} value={myUser.email} />
           <Button type="submit">Submit</Button>
         </Form>
-      </Container>
-      <h2>Users</h2>
-      <Card.Group>{renderUserCards()}</Card.Group>
-      <h2>Todos</h2>
-      <Card.Group>{renderTodoCards()}</Card.Group>
-    </div>
+        <h2>Create Todo</h2>
+        <Container>
+          <Form className='myform' onSubmit={handleSubmitTodo}>
+            <Form.Input type="text" name="name" onChange={handleChangeTodo} value={todo.name} />
+            <Form.Input type="text" name="description" onChange={handleChangeTodo} value={todo.description} />
+            <Select
+              required
+              label='Status'
+              placeholder='Select task status'
+              name="todoUserId"
+              options={myUsersOptions}
+              value={todo.todoUserId}
+              onChange={handleSelectChangeTodo}
+            />
+            <br />
+            <Button type="submit">Submit</Button>
+          </Form>
+        </Container>
+        <h2>Users</h2>
+        <Card.Group>{renderUserCards()}</Card.Group>
+        <h2>Todos</h2>
+        <Card.Group>{renderTodoCards()}</Card.Group>
+      </div>)}
+    </Authenticator>
   );
 }
 
-export default withAuthenticator(App);
+export default App;
