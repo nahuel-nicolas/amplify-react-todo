@@ -14,6 +14,9 @@
     "categories": {
       "api": {
         "amplifyreacttodo": {}
+      },
+      "auth": {
+        "amplifyreacttodobd199774": {}
       }
     }
   }
