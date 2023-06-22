@@ -6,7 +6,10 @@ import { createTodo, createUser, deleteTodo, deleteUser } from './graphql/mutati
 import { listTodos, listUsers } from './graphql/queries';
 import { Select, Form, Button, Container, Card } from 'semantic-ui-react';
 
-function App() {
+import { withAuthenticator, Button as AuthButton, Heading } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+function App({ signOut, user }) {
   const [todo, setTodo] = useState({
     name: '',
     description: '',
@@ -157,6 +160,8 @@ function App() {
   return (
     <div className="App">
       <h2>Create User</h2>
+      <Heading level={1}>Hello {user?.username}</Heading>
+      <AuthButton onClick={signOut}>Sign out</AuthButton>
       <Form className='myform' onSubmit={handleSubmitUser}>
         <Form.Input type="text" name="name" onChange={handleChangeUser} value={myUser.name} />
         <Form.Input type="text" name="email" onChange={handleChangeUser} value={myUser.email} />
@@ -188,4 +193,4 @@ function App() {
   );
 }
 
-export default App;
+export default withAuthenticator(App);
