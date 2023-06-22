@@ -17,6 +17,12 @@
       },
       "auth": {
         "amplifyreacttodobd199774": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dyz3suid5cnr3",
+          "type": "manual"
+        }
       }
     }
   }
